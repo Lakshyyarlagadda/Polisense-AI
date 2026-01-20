@@ -13,7 +13,7 @@ load_dotenv(dotenv_path=".env", override=True)
 import streamlit as st
 from langchain_groq import ChatGroq
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_openai import OpenAIEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain_community.document_loaders import PyPDFLoader
 
@@ -55,9 +55,7 @@ def load_vectorstore_from_path(pdf_path: str) -> FAISS:
     )
     chunks = splitter.split_documents(documents)
 
-    embeddings = HuggingFaceEmbeddings(
-        model_name="sentence-transformers/all-MiniLM-L6-v2"
-    )
+    embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
 
     return FAISS.from_documents(chunks, embeddings)
 
