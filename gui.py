@@ -58,7 +58,7 @@ class AssistantGUI:
                 import os
                 from langchain_community.document_loaders import PyPDFLoader
                 from langchain_text_splitters import RecursiveCharacterTextSplitter
-                from langchain_community.embeddings import HuggingFaceEmbeddings
+                from langchain_community.embeddings import FakeEmbeddings
                 from langchain_community.vectorstores import FAISS
 
                 st.info(f"📁 Processing: {uploaded_pdf.name}")
@@ -80,9 +80,7 @@ class AssistantGUI:
                     )
                     chunks = splitter.split_documents(documents)
 
-                    embeddings = HuggingFaceEmbeddings(
-                        model_name="sentence-transformers/all-MiniLM-L6-v2"
-                    )
+                    embeddings = FakeEmbeddings(size=384)
 
                     new_vectorstore = FAISS.from_documents(chunks, embeddings)
                     st.session_state.vectorstore = new_vectorstore

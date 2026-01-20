@@ -13,8 +13,7 @@ load_dotenv(dotenv_path=".env", override=True)
 import streamlit as st
 from langchain_groq import ChatGroq
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_community.embeddings import HuggingFaceHubEmbeddings
-
+from langchain_community.embeddings import FakeEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain_community.document_loaders import PyPDFLoader
 
@@ -56,10 +55,7 @@ def load_vectorstore_from_path(pdf_path: str) -> FAISS:
     )
     chunks = splitter.split_documents(documents)
 
-    embeddings = HuggingFaceHubEmbeddings(
-        repo_id="sentence-transformers/all-MiniLM-L6-v2",
-        huggingfacehub_api_token=os.environ["HF_API_TOKEN"],
-    )
+    embeddings = FakeEmbeddings(size=384)
 
     return FAISS.from_documents(chunks, embeddings)
 
@@ -82,9 +78,7 @@ def load_vectorstore_from_file(_uploaded_file) -> FAISS:
         )
         chunks = splitter.split_documents(documents)
 
-        embeddings = HuggingFaceEmbeddings(
-            model_name="sentence-transformers/all-MiniLM-L6-v2"
-        )
+        embeddings = FakeEmbeddings(size=384)
 
         return FAISS.from_documents(chunks, embeddings)
     finally:
