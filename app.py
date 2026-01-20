@@ -14,7 +14,7 @@ import streamlit as st
 from langchain_groq import ChatGroq
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.embeddings import FakeEmbeddings
-from langchain_community.vectorstores import FAISS
+from langchain_chroma import Chroma
 from langchain_community.document_loaders import PyPDFLoader
 
 from assistant import Assistant
@@ -45,7 +45,7 @@ if "pdf_file_uploaded" not in st.session_state:
 # Load PDF & Create Vector Store
 # ----------------------------------
 @st.cache_resource(show_spinner="Indexing policy documents...")
-def load_vectorstore_from_path(pdf_path: str) -> FAISS:
+def load_vectorstore_from_path(pdf_path: str) -> Chroma:
     loader = PyPDFLoader(pdf_path)
     documents = loader.load()
 
@@ -57,11 +57,11 @@ def load_vectorstore_from_path(pdf_path: str) -> FAISS:
 
     embeddings = FakeEmbeddings(size=384)
 
-    return FAISS.from_documents(chunks, embeddings)
+    return Chroma.from_documents(chunks, embeddings)
 
 
 @st.cache_resource(show_spinner="Indexing uploaded PDF...")
-def load_vectorstore_from_file(_uploaded_file) -> FAISS:
+def load_vectorstore_from_file(_uploaded_file) -> Chroma:
     import tempfile
 
     with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp_file:
@@ -80,7 +80,7 @@ def load_vectorstore_from_file(_uploaded_file) -> FAISS:
 
         embeddings = FakeEmbeddings(size=384)
 
-        return FAISS.from_documents(chunks, embeddings)
+        return Chroma.from_documents(chunks, embeddings)
     finally:
         os.unlink(tmp_file_path)
 

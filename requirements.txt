@@ -1,8 +1,8 @@
 langchain
 langchain-community
 langchain-chroma
+langchain-groq
 streamlit
 pypdf
 python-dotenv
 faker
-faiss-cpu

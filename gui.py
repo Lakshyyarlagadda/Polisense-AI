@@ -59,7 +59,7 @@ class AssistantGUI:
                 from langchain_community.document_loaders import PyPDFLoader
                 from langchain_text_splitters import RecursiveCharacterTextSplitter
                 from langchain_community.embeddings import FakeEmbeddings
-                from langchain_community.vectorstores import FAISS
+                from langchain_chroma import Chroma
 
                 st.info(f"📁 Processing: {uploaded_pdf.name}")
 
@@ -82,7 +82,7 @@ class AssistantGUI:
 
                     embeddings = FakeEmbeddings(size=384)
 
-                    new_vectorstore = FAISS.from_documents(chunks, embeddings)
+                    new_vectorstore = Chroma.from_documents(chunks, embeddings)
                     st.session_state.vectorstore = new_vectorstore
 
                     # Clear message history to start fresh with new PDF
