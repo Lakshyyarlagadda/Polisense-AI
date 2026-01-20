@@ -1,0 +1,39 @@
+# OS
+.DS_Store
+.idea/
+
+# Environment
+.env
+.env.local
+.venv
+venv/
+venv311/
+ENV/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+dist/
+build/
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Streamlit
+.streamlit/
+
+# Vector Store & Cache
+.chroma/
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
+
+# IDE
+*.swp
+*.swo
